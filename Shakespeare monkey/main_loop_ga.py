@@ -16,7 +16,8 @@ def ga_loop(target, population, mutation_probability):
     for p in population:
         scores.append(ga.fitness(target, p))
     max_score = sorted(scores, reverse = True)[0]*100
-    print(max_score)
+    bar = '█'*int(max_score) + '-' * (100 - int(max_score))
+    print(f"\r |{bar}| {max_score:.2f}%", end = "\r")
 
     # list of candidates with score > 0
     candidates = []
@@ -27,7 +28,7 @@ def ga_loop(target, population, mutation_probability):
 
             # if target is achieved
             if(scores[i] == 1):
-                return f"Target achieved: '{target}' on {generation} generation"
+                return f"\n\nTarget achieved: '{target}' on {generation} generation \n"
 
             good_candidate = population[i]
             candidate_scores.append(scores[i])

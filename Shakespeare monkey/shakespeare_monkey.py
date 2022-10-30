@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     # take valid input
     target = take_valid_input()
+    print("\n")
 
     # Populate
     population = GeneticAlgorithm.populate(len(target), population_size)
