@@ -1,7 +1,7 @@
-from turtle import distance
 from genetic_algorithm import GeneticAlgorithm
 import main_loop_ga as main_loop
 import time
+import yaml
 
 if __name__ == "__main__":
     dist = [
@@ -19,19 +19,19 @@ if __name__ == "__main__":
     [2145, 357, 1453, 1280, 586, 887, 1114, 2300, 653, 1272, 1017, 0, 504],
     [1972, 579, 1260, 987, 371, 999, 701, 2099, 600, 1162, 1200, 504, 0],
 ]
-    t = time.time()
-    # size of population
-    population_size = 100
-    
-    # mutation percentage
-    mutation_per = 0.01
 
+    with open('hyperparameters.yaml') as parameters:
+       hyper_parameter = yaml.load(parameters, Loader=yaml.FullLoader)
+   
+    t = time.time()
+
+  
     # Populate
-    population = GeneticAlgorithm.populate(len(dist), population_size)
-    #print(population)
+    population = GeneticAlgorithm.populate(len(dist), hyper_parameter['population_size'])
 
     # main ga(genetic algorithm) loop to find the result
-    result = main_loop.ga_loop(dist, population, mutation_per)
+    result = main_loop.ga_loop(dist, population, hyper_parameter['mutation_per'], 
+                               hyper_parameter['dropout_number'], hyper_parameter['n_generations'])
     print(f"\n {result}")
     print(f"\nTime taken: {time.time()-t:.2f} seconds")
-    
+   

@@ -1,5 +1,4 @@
 from random import randint
-import string
 
 # class with methods of the entire genetic algorithm loop
 class GeneticAlgorithm:
@@ -32,12 +31,11 @@ class GeneticAlgorithm:
         # once the loop ends we have a parent  
         population.append(individual)
        
-
       return population
 
 
     # function to calculate fitness
-    def fitness(dist, individual, sum) -> float:
+    def fitness(dist, individual, sum) -> tuple:
       # fitness score of inidividual
       score = 0
 
@@ -47,10 +45,11 @@ class GeneticAlgorithm:
            score+=dist[individual[i]][individual[0]]
         else:
           score+=dist[individual[i]][individual[i+1]]
-          if(score<sum):
+       
+      if(score<sum):
             sum = score
             
-      return score
+      return (score,sum)
 
 
     # function to create a mating pool for cross over by populating parents according to their fitting
@@ -67,7 +66,7 @@ class GeneticAlgorithm:
 
 
     # check the probabilities of generated parent meets the criteria with random number probability
-    def accept(population, scores, max_score) -> int:
+    def accept(population, scores, max_score) -> list:
       while True:
         parent_index = randint(0, len(population)-1)
         rand_num = randint(0,max_score)
@@ -78,7 +77,7 @@ class GeneticAlgorithm:
   
 
     # function for crossover
-    def crossover(parent1, parent2, split_point) -> string:
+    def crossover(parent1, parent2, split_point) -> list:
       p1 = parent1
       p2 = parent2
       child = []
@@ -94,7 +93,7 @@ class GeneticAlgorithm:
               pass
             else:
               child.append(j)
-
+      
       return child
 
     
@@ -116,11 +115,11 @@ class GeneticAlgorithm:
              while same:
                ran_value = randint(0, len(individual)-1)
                if(individual[i] != individual[ran_value]):
-                 individual[i] = individual[ran_value]
+                 individual[i], individual[ran_value] = individual[ran_value], individual[i]
                  same = False
                else:
                 pass
-             
+
       return individual
 
 
