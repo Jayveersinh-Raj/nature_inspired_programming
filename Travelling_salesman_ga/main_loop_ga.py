@@ -11,7 +11,7 @@ dropout_counter = 0
 # to store the best solution we have on a given generation
 best_so_far = []
 
-def ga_loop(dist, population, mutation_probability,dropout_number,n_generations):
+def ga_loop(dist, population, mutation_probability,dropout,n_generations) -> tuple: 
 
     global generation
     global sum
@@ -23,7 +23,7 @@ def ga_loop(dist, population, mutation_probability,dropout_number,n_generations)
         return (sum, best_so_far)
     
     # if not getting better solution for a particular number of epochs, early stop, and return the best so far
-    if(dropout_counter == dropout_number):
+    if(dropout[0] == True and dropout_counter == dropout[1]):
         print("\n dropped out")
         return (sum, best_so_far)
     
@@ -57,8 +57,8 @@ def ga_loop(dist, population, mutation_probability,dropout_number,n_generations)
     percnt_scores = [int(float(score)*100) for score in int_scores]
     
     # just a little fanciness for output
-    bar = '█'*(int(generation/n_generations*100)) + '-' *(100 - int(generation/n_generations*100))
-    print(f"\r|{bar}| {int(generation/n_generations*100)}%", end = "\r")
+    bar = '█'*(int(generation/n_generations*100)) + '-' *(100 - int(generation/n_generations*100)-1)
+    print(f"\r|{bar}| {int(generation/n_generations*100)+1}%", end = "\r")
 
     max_score = max(percnt_scores)
  
@@ -75,10 +75,12 @@ def ga_loop(dist, population, mutation_probability,dropout_number,n_generations)
         split_point = randint(0, len(dist)-1)        
 
         # crossover of those parents to yield a breed
-        breed = ga.crossover(mating_parents[0], mating_parents[1], split_point)        # mutating the produced breed and adding it to the population
+        breed = ga.crossover(mating_parents[0], mating_parents[1], split_point)        
+        
+        # mutating the produced breed and adding it to the population
         new_population.append(ga.mutate(breed, mutation_probability))  
 
     generation += 1
 
-        # Repeat by calculating the fitness
-    return ga_loop(dist, new_population, mutation_probability, dropout_number, n_generations)
+    # Repeat by calculating the fitness
+    return ga_loop(dist, new_population, mutation_probability, dropout, n_generations)

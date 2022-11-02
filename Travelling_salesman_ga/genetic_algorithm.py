@@ -8,8 +8,7 @@ class GeneticAlgorithm:
 
 
     # function to populate the population
-    @classmethod
-    def populate(cls,target_len,n) -> list:
+    def populate(target_len,n) -> list:
 
     # empty list to store our initial population
       population = []
@@ -70,7 +69,9 @@ class GeneticAlgorithm:
       while True:
         parent_index = randint(0, len(population)-1)
         rand_num = randint(0,max_score)
-        if(rand_num < scores[parent_index]):
+
+        # since we want to minimize, we take the individual with low scores (weights/distances) 1-probability rule
+        if(rand_num > scores[parent_index]):
           return population[parent_index]
         else:
           pass 

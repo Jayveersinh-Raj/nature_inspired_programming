@@ -1,12 +1,13 @@
 ---
     # size of population
-    population_size: 500
+    population_size: 1000
     
     # mutation percentage
     mutation_per: 0.01
 
     # early stop for the generations till which no better solution found
-    dropout_number: 200
+    dropout: True
+    dropout_number: 300
     
     # number of epochs
     n_generations: 500

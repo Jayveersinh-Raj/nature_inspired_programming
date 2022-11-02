@@ -20,18 +20,19 @@ if __name__ == "__main__":
     [1972, 579, 1260, 987, 371, 999, 701, 2099, 600, 1162, 1200, 504, 0],
 ]
 
+    # Read the hyper-parameters from yaml file using with context manager
     with open('hyperparameters.yaml') as parameters:
        hyper_parameter = yaml.load(parameters, Loader=yaml.FullLoader)
    
     t = time.time()
 
-  
     # Populate
     population = GeneticAlgorithm.populate(len(dist), hyper_parameter['population_size'])
 
     # main ga(genetic algorithm) loop to find the result
     result = main_loop.ga_loop(dist, population, hyper_parameter['mutation_per'], 
-                               hyper_parameter['dropout_number'], hyper_parameter['n_generations'])
+                               (hyper_parameter['dropout'], hyper_parameter['dropout_number']), 
+                               hyper_parameter['n_generations'])
     print(f"\n {result}")
     print(f"\nTime taken: {time.time()-t:.2f} seconds")
    
