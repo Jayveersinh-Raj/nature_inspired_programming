@@ -23,13 +23,6 @@ class GeneticAlgorithm:
         # generating parents randomly using the ascii values of characters
         for _ in range(target_len):
           ran_value = randint(32, 125)
-  
-          # for characters and space that we want, but their ASCII is not within 63, 122, so this technique
-         # if(ran_value == 63):
-         #     ran_value = 32
-         # elif(ran_value == 64):
-         #     ran_value = 46
-          
           parent = parent + str(chr(ran_value))
   
         # once the loop ends we have a parent  
@@ -107,14 +100,7 @@ class GeneticAlgorithm:
            mutation_genes = randint(0, 100)
 
            if (mutation_genes <= chance):
-             ran_value = randint(63, 122)
-     
-             # for characters and space that we want, but their ASCII is not within 63, 122, so this technique
-             if(ran_value == 63):
-                 ran_value = 32
-             elif(ran_value == 64):
-                 ran_value = 46
-          
+             ran_value = randint(32, 125)
              genes[i] = chr(ran_value)
    
       individual = ''.join(genes)

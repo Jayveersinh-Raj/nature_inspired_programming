@@ -22,13 +22,13 @@ class GeneticAlgorithm:
   
         # generating parents randomly using the ascii values of characters
         for _ in range(target_len):
-          ran_value = randint(63, 122)
+          ran_value = randint(32, 125)
   
           # for characters and space that we want, but their ASCII is not within 63, 122, so this technique
-          if(ran_value == 63):
-              ran_value = 32
-          elif(ran_value == 64):
-              ran_value = 46
+         # if(ran_value == 63):
+         #     ran_value = 32
+         # elif(ran_value == 64):
+         #     ran_value = 46
           
           parent = parent + str(chr(ran_value))
   
@@ -55,18 +55,27 @@ class GeneticAlgorithm:
 
 
     # function to create a mating pool for cross over by populating parents according to their fitting
-    def select(population, scores) -> list:
-
-      # mating pool where elements are in accordance to their probablities
-      mating_pool = []
-      int_scores = [int(score*100) for score in scores]
-  
-      for i in range(len(population)):
-          score = int_scores[i]
-          for _ in range(score):
-            mating_pool.append(population[i])
+    @classmethod
+    def select(cls, population, scores, max_score) -> list:
+      parents_to_breed = []
+      # scores in integer values
+      p1 = cls.accept(population,scores, max_score)
+      p2 = cls.accept(population, scores, max_score)
+      parents_to_breed.append(p1)
+      parents_to_breed.append(p2)
             
-      return mating_pool
+      return parents_to_breed
+
+
+    # check the probabilities of generated parent meets the criteria with random number probability
+    def accept(population, scores, max_score):
+      while True:
+        parent_index = randint(0, len(population)-1)
+        rand_num = randint(0,max_score)
+        if(rand_num < scores[parent_index]):
+          return population[parent_index]
+        else:
+          pass 
   
 
     # function for crossover
@@ -96,8 +105,17 @@ class GeneticAlgorithm:
       # according to given mutation chance change characters/genes of an individual
       for i in range(len(genes)):
            mutation_genes = randint(0, 100)
+
            if (mutation_genes <= chance):
-              genes[i] = genes[randint(0, len(genes)-1)]
+             ran_value = randint(63, 122)
+     
+             # for characters and space that we want, but their ASCII is not within 63, 122, so this technique
+             if(ran_value == 63):
+                 ran_value = 32
+             elif(ran_value == 64):
+                 ran_value = 46
+          
+             genes[i] = chr(ran_value)
    
       individual = ''.join(genes)
       

@@ -9,7 +9,7 @@ def take_valid_input():
       ascii_target = [ord(ch) for ch in target]
       
       for ascii in ascii_target:
-        if(ascii<65 or ascii>122):
+        if(ascii<32 or ascii>125):
             if(ascii in valid):
                 notValid = False
             else:
